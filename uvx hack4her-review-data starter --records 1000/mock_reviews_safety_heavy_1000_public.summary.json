@@ -1,0 +1,71 @@
+{
+  "scenario": "safety_heavy",
+  "description": "Stress test with many safety-related reviews across all three categories.",
+  "records": 1000,
+  "source_pool_size": 10000,
+  "base_seed": 20260522,
+  "effective_seed": 2972123241,
+  "deterministic": true,
+  "synthetic_data_notice": "All reviews, properties, labels, and coordinates are synthetic mock data for hackathon prototyping. They are not Booking.com customer reviews and must not be interpreted as real safety ratings for any location.",
+  "topic_counts": {
+    "cleanliness": 106,
+    "location_positive": 92,
+    "comfort": 98,
+    "amenities": 87,
+    "check_in": 88,
+    "service": 66,
+    "breakfast": 83,
+    "noise": 98,
+    "safety_host": 48,
+    "safety_location": 29,
+    "value": 87,
+    "wifi": 85,
+    "safety_stay": 33
+  },
+  "language_counts": {
+    "ar": 78,
+    "en": 314,
+    "it": 97,
+    "de": 80,
+    "es": 142,
+    "nl": 76,
+    "fr": 133,
+    "pt": 80
+  },
+  "safety_counts": {
+    "none": 890,
+    "host": 18,
+    "stay": 30,
+    "location": 62
+  },
+  "safety_level_counts": {
+    "none": 890,
+    "medium": 78,
+    "critical": 9,
+    "high": 23
+  },
+  "golden_sample": {
+    "enabled": true,
+    "percent": 0.1,
+    "records": 100,
+    "label_columns_included": [
+      "base_seed",
+      "effective_seed",
+      "expected_action",
+      "is_safety_related",
+      "labels",
+      "safety_category",
+      "safety_concern_level",
+      "safety_signal",
+      "sentiment",
+      "topic"
+    ],
+    "files": [
+      "uvx hack4her-review-data starter --records 1000\\mock_reviews_safety_heavy_1000_golden_10pct.csv"
+    ]
+  },
+  "files": [
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_safety_heavy_1000_public.csv",
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_safety_heavy_1000_golden_10pct.csv"
+  ]
+}

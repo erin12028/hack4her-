@@ -1,0 +1,71 @@
+{
+  "scenario": "stay_focus",
+  "description": "Reviews emphasize room, lock, access, privacy, and on-property safety concerns.",
+  "records": 1000,
+  "source_pool_size": 10000,
+  "base_seed": 20260522,
+  "effective_seed": 431370981,
+  "deterministic": true,
+  "synthetic_data_notice": "All reviews, properties, labels, and coordinates are synthetic mock data for hackathon prototyping. They are not Booking.com customer reviews and must not be interpreted as real safety ratings for any location.",
+  "topic_counts": {
+    "noise": 82,
+    "comfort": 91,
+    "wifi": 84,
+    "safety_host": 51,
+    "location_positive": 96,
+    "breakfast": 66,
+    "check_in": 81,
+    "safety_stay": 43,
+    "cleanliness": 110,
+    "amenities": 92,
+    "service": 79,
+    "safety_location": 30,
+    "value": 95
+  },
+  "language_counts": {
+    "pt": 82,
+    "en": 371,
+    "de": 75,
+    "es": 132,
+    "fr": 113,
+    "ar": 66,
+    "nl": 72,
+    "it": 89
+  },
+  "safety_counts": {
+    "none": 876,
+    "stay": 40,
+    "location": 71,
+    "host": 13
+  },
+  "safety_level_counts": {
+    "none": 876,
+    "high": 28,
+    "medium": 88,
+    "critical": 8
+  },
+  "golden_sample": {
+    "enabled": true,
+    "percent": 0.1,
+    "records": 100,
+    "label_columns_included": [
+      "base_seed",
+      "effective_seed",
+      "expected_action",
+      "is_safety_related",
+      "labels",
+      "safety_category",
+      "safety_concern_level",
+      "safety_signal",
+      "sentiment",
+      "topic"
+    ],
+    "files": [
+      "uvx hack4her-review-data starter --records 1000\\mock_reviews_stay_focus_1000_golden_10pct.csv"
+    ]
+  },
+  "files": [
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_stay_focus_1000_public.csv",
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_stay_focus_1000_golden_10pct.csv"
+  ]
+}

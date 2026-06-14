@@ -1,0 +1,71 @@
+{
+  "scenario": "balanced",
+  "description": "Mixed travel reviews with a visible but not dominant safety signal.",
+  "records": 1000,
+  "source_pool_size": 10000,
+  "base_seed": 20260522,
+  "effective_seed": 3250943794,
+  "deterministic": true,
+  "synthetic_data_notice": "All reviews, properties, labels, and coordinates are synthetic mock data for hackathon prototyping. They are not Booking.com customer reviews and must not be interpreted as real safety ratings for any location.",
+  "topic_counts": {
+    "check_in": 93,
+    "service": 86,
+    "cleanliness": 109,
+    "location_positive": 96,
+    "safety_host": 52,
+    "noise": 95,
+    "breakfast": 71,
+    "amenities": 86,
+    "comfort": 87,
+    "wifi": 69,
+    "value": 89,
+    "safety_stay": 38,
+    "safety_location": 29
+  },
+  "language_counts": {
+    "en": 337,
+    "ar": 78,
+    "it": 89,
+    "fr": 115,
+    "pt": 94,
+    "de": 79,
+    "es": 137,
+    "nl": 71
+  },
+  "safety_counts": {
+    "none": 881,
+    "stay": 51,
+    "location": 53,
+    "host": 15
+  },
+  "safety_level_counts": {
+    "none": 881,
+    "medium": 82,
+    "high": 28,
+    "critical": 9
+  },
+  "golden_sample": {
+    "enabled": true,
+    "percent": 0.1,
+    "records": 100,
+    "label_columns_included": [
+      "base_seed",
+      "effective_seed",
+      "expected_action",
+      "is_safety_related",
+      "labels",
+      "safety_category",
+      "safety_concern_level",
+      "safety_signal",
+      "sentiment",
+      "topic"
+    ],
+    "files": [
+      "uvx hack4her-review-data starter --records 1000\\mock_reviews_balanced_1000_golden_10pct.csv"
+    ]
+  },
+  "files": [
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_balanced_1000_public.csv",
+    "uvx hack4her-review-data starter --records 1000\\mock_reviews_balanced_1000_golden_10pct.csv"
+  ]
+}
