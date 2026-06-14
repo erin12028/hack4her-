@@ -719,12 +719,29 @@
           </div>
           <div style="margin-bottom: 16px;">
             <label style="font-size: 12px; font-weight: 600; color: var(--gray-600); display:block; margin-bottom: 6px;">EXPECTED ARRIVAL</label>
-            <input id="arrival-input" type="time" style="
-              width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200);
-              border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
-              font-size: 14px; color: var(--gray-700); box-sizing: border-box;
-              outline: none;
-            "/>
+            <div style="display:flex; gap:8px;">
+              <select id="arrival-hour" style="
+                flex:1; padding: 10px 12px; border: 1px solid var(--gray-200);
+                border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+                font-size: 14px; color: var(--gray-700); background: var(--white);
+                cursor: pointer; appearance: none; text-align: center;
+              ">
+                <option value="">HH</option>
+                <script>for(let i=0;i<24;i++) document.write(`<option value="${String(i).padStart(2,'0')}">${String(i).padStart(2,'0')}</option>`)</script>
+              </select>
+
+              <div style="display:flex; align-items:center; font-size:18px; font-weight:700; color:var(--navy);">:</div>
+
+              <select id="arrival-min" style="
+                flex:1; padding: 10px 12px; border: 1px solid var(--gray-200);
+                border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+                font-size: 14px; color: var(--gray-700); background: var(--white);
+                cursor: pointer; appearance: none; text-align: center;
+              ">
+                <option value="">MM</option>
+                <script>for(let i=0;i<60;i+=5) document.write(`<option value="${String(i).padStart(2,'0')}">${String(i).padStart(2,'0')}</option>`)</script>
+              </select>
+            </div>
           </div>
           <button onclick="confirmDestination()" style="
             width: 100%; padding: 12px; background: var(--teal); color: white;
@@ -735,7 +752,7 @@
 
         <div id="checkin-card" style="display:none;">
           <div class="checkin-actions">
-            <button class="btn-primary" onclick="resetCheckin(); doCheckin('safe')">
+            <button class="btn-primary" onclick="doCheckin('safe'); resetCheckin() ">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               I'm safe — arrived at hotel
             </button>
@@ -806,6 +823,27 @@
 
 </div>
 
+<div id="error-popup" style="
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.3); z-index: 999;
+  align-items: center; justify-content: center;
+">
+  <div style="
+    background: white; border-radius: var(--radius-lg);
+    padding: 24px; margin: 20px; max-width: 320px; width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  ">
+    <div style="font-size: 32px; text-align: center; margin-bottom: 12px;">📍</div>
+    <div style="font-size: 16px; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 8px;">Missing details</div>
+    <div style="font-size: 14px; color: var(--gray-500); text-align: center; margin-bottom: 20px;">Please enter both a destination and arrival time to continue.</div>
+    <button onclick="document.getElementById('error-popup').style.display='none'" style="
+      width: 100%; padding: 12px; background: var(--teal); color: white;
+      border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    ">Got it</button>
+  </div>
+</div>
+
 <script>
   function showTab(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -813,6 +851,14 @@
     document.getElementById('sec-' + id).classList.add('active');
     if (btn) btn.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (id === 'arrival') {
+    const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
+      document.getElementById('arrival-hour').value = h;
+      document.getElementById('arrival-min').value = m;
+    }
   }
 
   function doCheckin(type) {
@@ -824,10 +870,16 @@
       circle.className = 'checkin-circle safe';
       title.textContent = 'Safely arrived!';
       sub.textContent = 'Mama and Sara have been notified.\nEnjoy your stay at Hotel Artemis!';
+      
     } else if (type === 'extend') {
+      const mins = parseInt(document.getElementById('extend-mins').value);
+      window.arrivalM += mins;
+      window.arrivalH += Math.floor(window.arrivalM / 60);
+      window.arrivalM = window.arrivalM % 60;
+      const newTime = `${String(window.arrivalH % 24).padStart(2,'0')}:${String(window.arrivalM).padStart(2,'0')}`;  
       circle.textContent = '⏰';
       title.textContent = 'Timer extended';
-      sub.textContent = 'New check-in deadline: 18:30.\nContacts will be alerted if not confirmed.';
+      sub.textContent = 'New check-in deadline:' + newTime +'.\nContacts will be alerted if not confirmed.';
     } else {
       circle.textContent = '🚨';
       circle.className = 'checkin-circle alert';
@@ -840,27 +892,30 @@
     document.getElementById('checkin-card').style.display = 'none';
     document.getElementById('destination-input').style.display = 'block';
     document.getElementById('dest-input').value = '';
-    document.getElementById('arrival-input').value = '';
+    document.getElementById('arrival-hour').value = '';
+    document.getElementById('arrival-min').value = '';
   }
 
   function confirmDestination() {
     const dest = document.getElementById('dest-input').value.trim();
-    const time = document.getElementById('arrival-input').value;
+    const h = document.getElementById('arrival-hour').value;
+    const m = document.getElementById('arrival-min').value;
+    window.arrivalH = parseInt(h);
+    window.arrivalM = parseInt(m);
 
-    if (!dest || !time) {
-      alert('Please enter both a destination and arrival time.');
+    if (!dest || !h || !m) {
+      document.getElementById('error-popup').style.display = 'flex';
       return;
     }
 
-    // Format time for display
-    const [h, m] = time.split(':');
     const formatted = `${h}:${m}`;
 
-    // Update check-in card with entered values
-    document.getElementById('checkin-sub').textContent =
-      `Expected arrival at ${dest} · ${formatted}`;
+    const circle = document.getElementById('checkin-circle');
+    circle.textContent = '⏱️';
+    circle.className = 'checkin-circle';
+    document.getElementById('checkin-title').textContent = 'Awaiting check-in';
+    document.getElementById('checkin-sub').textContent = `Expected arrival at ${dest} · ${formatted}`;
 
-    // Switch screens
     document.getElementById('destination-input').style.display = 'none';
     document.getElementById('checkin-card').style.display = 'block';
   }
