@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeTravel · by Booking.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #003580;
+    --navy-deep: #001f4d;
+    --navy-mid: #0f4a9c;
+    --blue-soft: #e8f0fb;
+    --blue-mid: #b8cef5;
+    --teal: #0e8c6a;
+    --teal-soft: #e2f5ef;
+    --amber: #d97706;
+    --amber-soft: #fef3c7;
+    --red: #c0392b;
+    --red-soft: #fdecea;
+    --purple: #6d4fc7;
+    --purple-soft: #ede9fb;
+    --gray-50: #f8f9fb;
+    --gray-100: #f0f2f6;
+    --gray-200: #e2e6ed;
+    --gray-300: #c8cdd8;
+    --gray-500: #8892a4;
+    --gray-700: #3d4657;
+    --gray-900: #1a2033;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* Page shell */
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+    min-height: 100vh;
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+
+  /* Hero header */
+  .hero {
+    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 60%, #1565c0 100%);
+    padding: 44px 24px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -20px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+  }
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .hero-logo-mark {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-logo-mark svg { width: 18px; height: 18px; fill: white; }
+  .hero-logo-text { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); letter-spacing: 0.02em; }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: white;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 em { font-style: italic; color: rgba(255,255,255,0.75); }
+  .hero-sub { font-size: 14px; color: rgba(255,255,255,0.6); position: relative; z-index: 1; }
+
+  /* ── Tab nav ── */
+  .tab-nav {
+    display: flex;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 14px 8px 12px;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .tab-btn svg { width: 18px; height: 18px; transition: all 0.2s; }
+  .tab-btn.active { color: var(--navy); }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 16%; right: 16%;
+    height: 2.5px;
+    background: var(--navy);
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* ── Content sections ── */
+  .section { display: none; animation: fadeUp 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .content { padding: 20px 20px 0; }
+
+  /* ── Hotel card ── */
+  .hotel-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .hotel-thumb {
+    width: 72px; height: 72px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #b8cef5, #9fe1cb);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 28px;
+  }
+  .hotel-name { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 2px; }
+  .hotel-loc { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
+  .hotel-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .star-badge { font-size: 12px; color: var(--amber); font-weight: 600; }
+  .safety-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+    background: var(--teal-soft); color: var(--teal);
+  }
+  .safety-pill svg { width: 11px; height: 11px; }
+
+  /* ── Score card ── */
+  .score-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .score-card-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--gray-500); letter-spacing: 0.07em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .score-hero { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+  .score-donut { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
+  .score-donut svg { width: 88px; height: 88px; transform: rotate(-90deg); }
+  .score-donut-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .score-donut-num { font-size: 22px; font-weight: 700; color: var(--gray-900); line-height: 1; }
+  .score-donut-lbl { font-size: 9px; font-weight: 500; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
+  .score-info { flex: 1; }
+  .score-verdict { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--teal); line-height: 1.2; margin-bottom: 4px; }
+  .score-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+
+  .breakdown-list { display: flex; flex-direction: column; gap: 10px; }
+  .breakdown-row { display: flex; align-items: center; gap: 10px; }
+  .breakdown-lbl { font-size: 12px; color: var(--gray-700); width: 136px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 5px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+  .bar-num { font-size: 11px; font-weight: 600; color: var(--gray-500); width: 24px; text-align: right; }
+
+  /* ── Insights ── */
+  .insights-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .insight-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 500;
+  }
+  .chip-pos { background: var(--teal-soft); color: #0a6b50; }
+  .chip-neg { background: var(--red-soft); color: var(--red); }
+  .insight-chip svg { width: 10px; height: 10px; }
+
+  /* ── Section card ── */
+  .info-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .info-card-title {
+    font-size: 11px; font-weight: 600;
+    color: var(--gray-500); letter-spacing: 0.07em;
+    text-transform: uppercase; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .info-card-title svg { width: 14px; height: 14px; color: var(--navy); }
+
+  /* ── Tips list ── */
+  .tip-list { display: flex; flex-direction: column; gap: 0; }
+  .tip-item {
+    display: flex; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .tip-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%; background: var(--navy);
+    margin-top: 7px; flex-shrink: 0;
+  }
+  .tip-text { font-size: 13px; color: var(--gray-700); line-height: 1.55; }
+
+  /* ── Emergency grid ── */
+  .emer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .emer-cell {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+  }
+  .emer-num { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .emer-lbl { font-size: 11px; color: var(--gray-500); }
+
+  /* ── Transport list ── */
+  .transport-list { display: flex; flex-direction: column; gap: 0; }
+  .transport-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .transport-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .t-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--blue-soft);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .t-icon svg { width: 18px; height: 18px; color: var(--navy); }
+  .t-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+  .t-sub { font-size: 11px; color: var(--gray-500); }
+  .t-badge {
+    margin-left: auto; font-size: 10px; font-weight: 600;
+    padding: 3px 9px; border-radius: 20px; flex-shrink: 0;
+  }
+  .badge-green { background: var(--teal-soft); color: var(--teal); }
+  .badge-amber { background: var(--amber-soft); color: var(--amber); }
+
+  /* ── Map placeholder ── */
+  .map-ph {
+    height: 130px;
+    background: linear-gradient(135deg, #e8f0fb 0%, #dff0ea 100%);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--gray-300);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px; color: var(--gray-500);
+    font-size: 12px;
+  }
+  .map-ph svg { width: 28px; height: 28px; opacity: 0.5; }
+
+  /* ── Confirmation banner ── */
+  .confirm-banner {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: var(--teal-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+  }
+  .confirm-banner svg { width: 18px; height: 18px; color: var(--teal); flex-shrink: 0; }
+  .confirm-text { font-size: 13px; font-weight: 500; color: #0a6b50; }
+
+  /* ── Check-in widget ── */
+  .checkin-hero { text-align: center; padding: 8px 0 20px; }
+  .checkin-circle {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-200);
+    background: var(--gray-50);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 38px;
+    transition: all 0.4s ease;
+  }
+  .checkin-circle.safe { background: var(--teal-soft); border-color: var(--teal); }
+  .checkin-circle.alert { background: var(--red-soft); border-color: var(--red); }
+  .checkin-title { font-size: 16px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+  .checkin-sub { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+
+  .checkin-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+  .btn-primary {
+    width: 100%; padding: 13px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-primary:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-primary svg { width: 16px; height: 16px; }
+  .btn-secondary {
+    width: 100%; padding: 11px;
+    background: var(--purple-soft);
+    color: var(--purple);
+    border: 1px solid var(--purple);
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-secondary:hover { background: var(--gray-50); border-color: var(--gray-300); }
+  .btn-danger {
+    width: 100%; padding: 11px;
+    background: var(--red-soft);
+    color: var(--red);
+    border: 1px solid #f5c6c2;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .btn-danger:hover { background: #fbd7d4; }
+
+  /* ── Contacts ── */
+  .contact-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-av {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--blue-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--navy);
+    flex-shrink: 0;
+  }
+  .contact-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+  .contact-rel { font-size: 11px; color: var(--gray-500); }
+  .contact-bell { margin-left: auto; }
+  .contact-bell svg { width: 16px; height: 16px; color: var(--gray-400); }
+
+  /* ── Premium badge ── */
+  .premium-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 20px;
+    background: var(--purple-soft); color: var(--purple);
+    font-size: 11px; font-weight: 600;
+  }
+  .premium-badge svg { width: 11px; height: 11px; }
+
+  /* ── Book CTA ── */
+  .book-cta {
+    position: sticky;
+    bottom: 0;
+    padding: 12px 20px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-200);
+  }
+  .book-btn {
+    width: 100%; padding: 15px;
+    background: var(--navy);
+    color: white; border: none;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .book-btn:hover { background: var(--navy-mid); box-shadow: 0 4px 16px rgba(0,53,128,0.3); transform: translateY(-1px); }
+  .book-btn svg { width: 17px; height: 17px; }
+
+  /* ── How it works ── */
+  .how-list { display: flex; flex-direction: column; gap: 12px; }
+  .how-item { display: flex; gap: 12px; align-items: flex-start; }
+  .how-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--blue-soft); color: var(--navy);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .how-text { font-size: 13px; color: var(--gray-700); line-height: 1.55; }
+
+  /* ── Divider label ── */
+  .divider-lbl {
+    font-size: 11px; font-weight: 600;
+    color: var(--gray-500); letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 10px; margin-top: 4px;
+  }
+
+  /* ── Animations on load ── */
+  .score-card, .hotel-card, .info-card {
+    animation: cardIn 0.4s ease both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .score-card { animation-delay: 0.05s; }
+  .info-card:nth-of-type(2) { animation-delay: 0.1s; }
+  .info-card:nth-of-type(3) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-logo">
+      <div class="hero-logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2zm0-8h2v6h-2z"/></svg>
+      </div>
+      <span class="hero-logo-text">Booking.com · SafeTravel</span>
+    </div>
+    <h1>Travel with<br><em>confidence.</em></h1>
+    <p class="hero-sub">Safety scores, AI briefings &amp; real-time check-ins</p>
+  </div>
+
+  <!-- Tab nav -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('before', this)" aria-label="Before booking">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Before booking
+    </button>
+    <button class="tab-btn" onclick="showTab('after', this)" aria-label="After booking">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      After booking
+    </button>
+    <button class="tab-btn" onclick="showTab('arrival', this)" aria-label="Safe arrival">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Safe arrival
+    </button>
+  </nav>
+
+  <!-- ─── BEFORE BOOKING ─── -->
+  <section id="sec-before" class="section active">
+    <div class="content">
+
+      <div class="hotel-card">
+        <div class="hotel-thumb">🏨</div>
+        <div style="flex:1;">
+          <div class="hotel-name">Hotel Artemis</div>
+          <div class="hotel-loc">📍 Centrum, Amsterdam · 2 nights</div>
+          <div class="hotel-meta">
+            <span class="star-badge">★ 8.7</span>
+            <span class="safety-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Safety score 84
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score -->
+      <div class="score-card">
+        <div class="score-card-title">Safety score</div>
+        <div class="score-hero">
+          <div class="score-donut">
+            <svg viewBox="0 0 88 88">
+              <circle cx="44" cy="44" r="36" fill="none" stroke="#e2e6ed" stroke-width="8"/>
+              <circle cx="44" cy="44" r="36" fill="none" stroke="#0e8c6a" stroke-width="8"
+                stroke-dasharray="190 226" stroke-dashoffset="0"
+                stroke-linecap="round"
+                id="score-arc"/>
+            </svg>
+            <div class="score-donut-text">
+              <div class="score-donut-num">84</div>
+              <div class="score-donut-lbl">/ 100</div>
+            </div>
+          </div>
+          <div class="score-info">
+            <div class="score-verdict">Very safe</div>
+            <div class="score-desc">This property scores above average across all 6 safety indicators for solo women travellers.</div>
+          </div>
+        </div>
+
+        <div class="divider-lbl">Breakdown</div>
+        <div class="breakdown-list">
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">Neighbourhood</span>
+            <div class="bar-track"><div class="bar-fill" style="width:88%; background:#0e8c6a;"></div></div>
+            <span class="bar-num" style="color:#0e8c6a;">88</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">Street lighting</span>
+            <div class="bar-track"><div class="bar-fill" style="width:79%; background:#0e8c6a;"></div></div>
+            <span class="bar-num" style="color:#0e8c6a;">79</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">Solo traveller reviews</span>
+            <div class="bar-track"><div class="bar-fill" style="width:91%; background:#0e8c6a;"></div></div>
+            <span class="bar-num" style="color:#0e8c6a;">91</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">24h reception</span>
+            <div class="bar-track"><div class="bar-fill" style="width:100%; background:#0e8c6a;"></div></div>
+            <span class="bar-num" style="color:#0e8c6a;">✓</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">Transport access</span>
+            <div class="bar-track"><div class="bar-fill" style="width:82%; background:#0e8c6a;"></div></div>
+            <span class="bar-num" style="color:#0e8c6a;">82</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-lbl">Incident reports</span>
+            <div class="bar-track"><div class="bar-fill" style="width:72%; background:#d97706;"></div></div>
+            <span class="bar-num" style="color:#d97706;">72</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Review insights -->
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Review insights
+        </div>
+        <div class="insights-wrap">
+          <span class="insight-chip chip-pos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Well-lit entrance</span>
+          <span class="insight-chip chip-pos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Friendly staff</span>
+          <span class="insight-chip chip-pos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Safe neighbourhood</span>
+          <span class="insight-chip chip-pos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Secure key card access</span>
+          <span class="insight-chip chip-neg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Noisy street at night</span>
+          <span class="insight-chip chip-neg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Avoid park after 22:00</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="book-cta">
+      <button class="book-btn" onclick="showTab('after', document.querySelectorAll('.tab-btn')[1])">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Book — get your safety guide
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── AFTER BOOKING ─── -->
+  <section id="sec-after" class="section">
+    <div class="content">
+
+      <div class="confirm-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span class="confirm-text">Booking confirmed · Your safety guide is ready</span>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          AI safety briefing · Amsterdam
+        </div>
+        <div class="tip-list">
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Centrum is generally very safe for solo female travellers. Stick to well-lit streets after midnight.</div></div>
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Vondelpark and Westerpark are great daytime spots. Avoid Vondelpark alone after 22:00.</div></div>
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">The Red Light District is tourist-heavy but can feel uncomfortable late at night solo — go with company.</div></div>
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Watch for pickpockets on trams 1, 2, 5 near Centraal Station. Keep bags in front of you.</div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .14h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          Emergency contacts
+        </div>
+        <div class="emer-grid">
+          <div class="emer-cell"><div class="emer-num">112</div><div class="emer-lbl">Emergency (EU)</div></div>
+          <div class="emer-cell"><div class="emer-num">0900-8844</div><div class="emer-lbl">Police (non-urgent)</div></div>
+          <div class="emer-cell"><div class="emer-num">020-592 3355</div><div class="emer-lbl">Hotel Artemis</div></div>
+          <div class="emer-cell"><div class="emer-num">020-555 4911</div><div class="emer-lbl">Trusted taxi</div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8l6 3-6 3V8z"/></svg>
+          Safe transport options
+        </div>
+        <div class="transport-list">
+          <div class="transport-row">
+            <div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8l6 3-6 3V8z"/></svg></div>
+            <div><div class="t-name">Bolt / Uber</div><div class="t-sub">In-app tracking, rated drivers</div></div>
+            <span class="t-badge badge-green">Recommended</span>
+          </div>
+          <div class="transport-row">
+            <div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
+            <div><div class="t-name">GVB Metro / Tram</div><div class="t-sub">Until 00:30 · well staffed</div></div>
+            <span class="t-badge badge-green">Safe</span>
+          </div>
+          <div class="transport-row">
+            <div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div class="t-name">OV-fiets (bike share)</div><div class="t-sub">Great for daytime use</div></div>
+            <span class="t-badge badge-amber">Daytime only</span>
+          </div>
+          <div class="transport-row">
+            <div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><div class="t-name">Night Bus (N-lines)</div><div class="t-sub">Runs 01:00–05:00</div></div>
+            <span class="t-badge badge-amber">Use with caution</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Neighbourhood safety map
+        </div>
+        <div class="map-ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15M15 6v15"/></svg>
+          <span style="font-weight:500; color:var(--gray-600);">Interactive safety heatmap</span>
+          <span style="font-size:11px;">Safe zones · transport stops · emergency services</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── SAFE ARRIVAL ─── -->
+  <section id="sec-arrival" class="section">
+    <div class="content">
+
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <span class="premium-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Premium
+        </span>
+        <span style="font-size:13px; color:var(--purple); font-weight:500;">Safe Arrival Check-In</span>
+      </div>
+
+      <div class="info-card">
+        <div class="checkin-hero">
+          <div class="checkin-circle" id="checkin-circle">🗺️</div>
+          <div class="checkin-title" id="checkin-title">Plan a new destination</div>
+          <div class="checkin-sub" id="checkin-sub">Enter your destination below to start tracking your arrival</div>
+        </div>
+
+        <div id="destination-input" style="
+          background: var(--white); border-radius: var(--radius-lg);
+          padding: 20px; margin-bottom: 16px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        ">
+          <div style="font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">Plan your arrival</div>
+          <div style="font-size: 13px; color: var(--gray-500); margin-bottom: 16px;">Enter your destination and expected arrival time</div>
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; font-weight: 600; color: var(--gray-600); display:block; margin-bottom: 6px;">DESTINATION</label>
+            <input id="dest-input" type="text" placeholder="e.g. Hotel Artemis, Amsterdam" style="
+              width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200);
+              border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+              font-size: 14px; color: var(--gray-700); box-sizing: border-box;
+              outline: none;
+            "/>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <label style="font-size: 12px; font-weight: 600; color: var(--gray-600); display:block; margin-bottom: 6px;">EXPECTED ARRIVAL</label>
+            <input id="arrival-input" type="time" style="
+              width: 100%; padding: 10px 12px; border: 1px solid var(--gray-200);
+              border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+              font-size: 14px; color: var(--gray-700); box-sizing: border-box;
+              outline: none;
+            "/>
+          </div>
+          <button onclick="confirmDestination()" style="
+            width: 100%; padding: 12px; background: var(--teal); color: white;
+            border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+          ">Confirm</button>
+        </div>
+
+        <div id="checkin-card" style="display:none;">
+          <div class="checkin-actions">
+            <button class="btn-primary" onclick="resetCheckin(); doCheckin('safe')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              I'm safe — arrived at hotel
+            </button>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="btn-secondary" style="flex:1; padding: 8px 12px; font-size: 12px;" onclick="doCheckin('extend')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Extend by <span id="extend-label">
+              </button>
+              <select id="extend-mins" onchange="updateExtendLabel()" style="
+                padding: 10px 8px; border: 1px solid var(--gray-200);
+                border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif;
+                font-size: 13px; color: var(--gray-700); background: var(--white);
+                cursor: pointer; min-width: 80px;
+              ">
+                <option value="15">15 min</option>
+                <option value="30" selected>30 min</option>
+                <option value="45">45 min</option>
+                <option value="60">1 hour</option>
+                <option value="90">1.5 hrs</option>
+                <option value="120">2 hours</option>
+              </select>
+            </div>
+            <button class="btn-danger" onclick="doCheckin('alert')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17.5" r="0.5" fill="currentColor" stroke="currentColor"/></svg>            Send emergency alert
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Trusted contacts
+        </div>
+        <div class="contact-row">
+          <div class="contact-av">MA</div>
+          <div><div class="contact-name">Mama</div><div class="contact-rel">Family · Notified if overdue</div></div>
+          <div class="contact-bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-av">SF</div>
+          <div><div class="contact-name">Sara F.</div><div class="contact-rel">Friend · Emergency only</div></div>
+          <div class="contact-bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.35"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/><line x1="1" y1="1" x2="23" y2="23"/></svg></div>
+        </div>
+        <div class="contact-row" style="padding-top:10px;">
+          <button style="width:100%; padding:9px 14px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--gray-500); background:none; border:1px dashed var(--gray-300); border-radius:var(--radius-md); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add trusted contact
+          </button>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          How it works
+        </div>
+        <div class="how-list">
+          <div class="how-item"><div class="how-num">1</div><div class="how-text">Set your expected arrival time before your trip begins.</div></div>
+          <div class="how-item"><div class="how-num">2</div><div class="how-text">When you arrive safely, tap the confirmation button to notify your contacts.</div></div>
+          <div class="how-item"><div class="how-num">3</div><div class="how-text">If you don't check in within 30 minutes of your ETA, trusted contacts are automatically alerted.</div></div>
+          <div class="how-item"><div class="how-num">4</div><div class="how-text">In an emergency, one tap shares your live location with contacts and the Booking.com safety team.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function doCheckin(type) {
+    const circle = document.getElementById('checkin-circle');
+    const title = document.getElementById('checkin-title');
+    const sub = document.getElementById('checkin-sub');
+    if (type === 'safe') {
+      circle.textContent = '✅';
+      circle.className = 'checkin-circle safe';
+      title.textContent = 'Safely arrived!';
+      sub.textContent = 'Mama and Sara have been notified.\nEnjoy your stay at Hotel Artemis!';
+    } else if (type === 'extend') {
+      circle.textContent = '⏰';
+      title.textContent = 'Timer extended';
+      sub.textContent = 'New check-in deadline: 18:30.\nContacts will be alerted if not confirmed.';
+    } else {
+      circle.textContent = '🚨';
+      circle.className = 'checkin-circle alert';
+      title.textContent = 'Alert sent to contacts';
+      sub.textContent = 'Mama and Sara have been notified\nwith your last known location.';
+    }
+  }
+
+  function resetCheckin() {
+    document.getElementById('checkin-card').style.display = 'none';
+    document.getElementById('destination-input').style.display = 'block';
+    document.getElementById('dest-input').value = '';
+    document.getElementById('arrival-input').value = '';
+  }
+
+  function confirmDestination() {
+    const dest = document.getElementById('dest-input').value.trim();
+    const time = document.getElementById('arrival-input').value;
+
+    if (!dest || !time) {
+      alert('Please enter both a destination and arrival time.');
+      return;
+    }
+
+    // Format time for display
+    const [h, m] = time.split(':');
+    const formatted = `${h}:${m}`;
+
+    // Update check-in card with entered values
+    document.getElementById('checkin-sub').textContent =
+      `Expected arrival at ${dest} · ${formatted}`;
+
+    // Switch screens
+    document.getElementById('destination-input').style.display = 'none';
+    document.getElementById('checkin-card').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
