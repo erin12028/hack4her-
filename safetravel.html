@@ -116,7 +116,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--gra
 .btn-primary{width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-primary:hover{background:var(--navy-mid);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .btn-primary svg{width:16px;height:16px}
-.btn-secondary{padding:11px 16px;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.btn-secondary{width:100%;padding:11px;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-secondary:hover{background:var(--gray-50)}
 .btn-danger{width:100%;padding:11px;background:var(--red-soft);color:var(--red);border:1px solid #f5c6c2;border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-danger:hover{background:#fbd7d4}
@@ -158,8 +158,6 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 .safe-confirmed-icon{font-size:48px;margin-bottom:8px}
 .safe-confirmed-title{font-size:15px;font-weight:600;color:var(--teal);margin-bottom:4px}
 .safe-confirmed-sub{font-size:12px;color:var(--gray-500)}
-
-/* How scores work explainer */
 .explainer-card{background:var(--blue-soft);border:1px solid var(--blue-mid);border-radius:var(--radius-lg);padding:18px 20px;margin:0 20px 4px}
 .explainer-title{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .explainer-title svg{width:13px;height:13px}
@@ -304,7 +302,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
       <div class="book-cta">
         <button class="book-btn" onclick="bookNow()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Book: get your safety guide
+          Book — get your safety guide
         </button>
       </div>
     </div>
@@ -325,7 +323,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         <div class="tip-list">
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Centrum is generally very safe for solo female travellers. Stick to well-lit streets after midnight.</div></div>
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Vondelpark and Westerpark are great daytime spots. Avoid Vondelpark alone after 22:00.</div></div>
-          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">The Red Light District is tourist-heavy but can feel uncomfortable late at night solo: go with company.</div></div>
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">The Red Light District is tourist-heavy but can feel uncomfortable late at night solo — go with company.</div></div>
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Watch for pickpockets on trams near Centraal Station. Keep bags in front of you.</div></div>
         </div>
       </div>
@@ -369,16 +367,29 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
           </div>
         </div>
       </div>
-      <div class="info-card">
+      <div class="info-card" id="heatmap-card">
         <div class="info-card-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
           Neighbourhood safety map
+          <span id="heatmap-city-label" style="margin-left:auto;font-size:10px;font-weight:500;color:var(--gray-500);text-transform:none;letter-spacing:0"></span>
         </div>
-        <div class="map-ph">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15M15 6v15"/></svg>
-          <span style="font-weight:500;color:var(--gray-600)">Interactive safety heatmap</span>
-          <span style="font-size:11px">Safe zones · transport stops · emergency services</span>
+        <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gray-600)"><span style="width:10px;height:10px;border-radius:2px;background:rgba(14,140,106,0.75);display:inline-block"></span>Safe zone</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gray-600)"><span style="width:10px;height:10px;border-radius:2px;background:rgba(217,119,6,0.75);display:inline-block"></span>Moderate</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gray-600)"><span style="width:10px;height:10px;border-radius:2px;background:rgba(192,57,43,0.75);display:inline-block"></span>Use caution</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gray-600)">📍 Hotels &nbsp; 🚉 Transport &nbsp; 🏥 Emergency</div>
         </div>
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap" id="heatmap-layer-btns">
+          <button onclick="toggleHeatmapLayer('zones')" id="btn-zones" style="padding:4px 10px;font-size:11px;font-family:inherit;border-radius:20px;border:1px solid var(--navy);background:var(--navy);color:white;cursor:pointer;font-weight:500">Safety zones</button>
+          <button onclick="toggleHeatmapLayer('hotels')" id="btn-hotels" style="padding:4px 10px;font-size:11px;font-family:inherit;border-radius:20px;border:1px solid var(--gray-300);background:white;color:var(--gray-700);cursor:pointer;font-weight:500">Hotels</button>
+          <button onclick="toggleHeatmapLayer('transport')" id="btn-transport" style="padding:4px 10px;font-size:11px;font-family:inherit;border-radius:20px;border:1px solid var(--gray-300);background:white;color:var(--gray-700);cursor:pointer;font-weight:500">Transport</button>
+          <button onclick="toggleHeatmapLayer('emergency')" id="btn-emergency" style="padding:4px 10px;font-size:11px;font-family:inherit;border-radius:20px;border:1px solid var(--gray-300);background:white;color:var(--gray-700);cursor:pointer;font-weight:500">Emergency</button>
+        </div>
+        <div style="position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--gray-200)">
+          <svg id="heatmap-svg" viewBox="0 0 440 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;background:#e8f0fb"></svg>
+          <div id="heatmap-tooltip" style="display:none;position:absolute;background:var(--gray-900);color:white;font-size:11px;padding:6px 10px;border-radius:8px;pointer-events:none;max-width:160px;line-height:1.5;z-index:10"></div>
+        </div>
+        <div style="font-size:10px;color:var(--gray-500);margin-top:8px;text-align:center">Tap any zone or marker for details</div>
       </div>
       <div style="height:80px"></div>
     </div>
@@ -426,21 +437,20 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
           <div class="checkin-actions">
             <button class="btn-primary" onclick="doCheckin('safe')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              I'm safe: arrived at hotel
+              I'm safe — arrived at hotel
             </button>
-            <!-- FIX: extend button takes remaining space, time picker is compact fixed width -->
-            <div style="display:flex;gap:8px;align-items:stretch">
-              <button class="btn-secondary" style="flex:1" onclick="doCheckin('extend')">
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="doCheckin('extend')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 Extend by <span id="extend-label">30 min</span>
               </button>
-              <select id="extend-mins" onchange="updateExtendLabel()" style="width:80px;flex-shrink:0;padding:10px 8px;border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--purple);background:var(--purple-soft);cursor:pointer;text-align:center;font-weight:600">
+              <select id="extend-mins" onchange="updateExtendLabel()" style="padding:10px 8px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-700);background:var(--white);cursor:pointer;min-width:88px">
                 <option value="15">15 min</option>
                 <option value="30" selected>30 min</option>
                 <option value="45">45 min</option>
-                <option value="60">1 hr</option>
-                <option value="90">1.5 hr</option>
-                <option value="120">2 hr</option>
+                <option value="60">1 hour</option>
+                <option value="90">1.5 hrs</option>
+                <option value="120">2 hours</option>
               </select>
             </div>
             <button class="btn-danger" onclick="doCheckin('alert')">
@@ -457,7 +467,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         <div id="safe-confirmed" style="display:none">
           <div class="safe-confirmed">
             <div class="safe-confirmed-icon">✅</div>
-            <div class="safe-confirmed-title">Contacts notified: you're all set!</div>
+            <div class="safe-confirmed-title">Contacts notified — you're all set!</div>
             <div class="safe-confirmed-sub">Returning to destination planner in a moment…</div>
           </div>
         </div>
@@ -544,6 +554,7 @@ function showTab(id,btn){
   document.getElementById('sec-'+id).classList.add('active');
   if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='after'){if(!heatmapCity)buildHeatmap('Amsterdam');}
   if(id==='arrival'){
     const now=new Date();
     document.getElementById('arrival-hour').value=String(now.getHours()).padStart(2,'0');
@@ -567,6 +578,7 @@ function getScoreColor(score){
 }
 
 function getMockCriteria(score,area,avg){
+  const seed=score;
   const clamp=(v,mn,mx)=>Math.min(mx,Math.max(mn,Math.round(v)));
   const jitter=(base,spread)=>clamp(base+(Math.random()-0.5)*spread*2,10,100);
   const nightlifeArea=area==='nightlife_district';
@@ -658,6 +670,7 @@ function bookNow(){
   document.getElementById('after-city').textContent=city;
   document.getElementById('after-banner-text').textContent='Booking confirmed · '+name+' · Your safety guide is ready';
   document.getElementById('hotel-phone-lbl').textContent=name;
+  buildHeatmap(city);
   openModal('booked-modal');
 }
 
@@ -679,17 +692,14 @@ function confirmDestination(){
 function doCheckin(type){
   const circle=document.getElementById('checkin-circle');
   if(type==='safe'){
+    // immediately hide actions, show confirmed state
     document.getElementById('checkin-card').style.display='none';
     document.getElementById('safe-confirmed').style.display='block';
     circle.textContent='✅';circle.className='checkin-circle safe';
     document.getElementById('checkin-title').textContent='Safely arrived!';
     document.getElementById('checkin-sub').textContent='Mama and Sara have been notified.\nEnjoy your stay!';
-<<<<<<< HEAD
-    showToast('✓ Contacts notified: safe arrival confirmed');
-    // after 3s reset and switch tab
-=======
     showToast('✓ Contacts notified — safe arrival confirmed');
->>>>>>> d8a84d0 (add a box for explaination)
+    // after 3s reset and switch tab
     setTimeout(()=>{
       resetCheckin();
       showTab('arrival',document.getElementById('arrival-tab-btn'));
@@ -740,6 +750,196 @@ function showToast(msg){
   clearTimeout(toastTimeout);
   toastTimeout=setTimeout(()=>t.classList.remove('show'),2800);
 }
+
+// ── HEATMAP ──────────────────────────────────────────────────────────────────
+const AREA_LAYOUT = {
+  central:           {x:170, y:90,  w:100, h:80,  label:'City Centre'},
+  old_town:          {x:80,  y:60,  w:90,  h:70,  label:'Old Town'},
+  nightlife_district:{x:270, y:60,  w:100, h:70,  label:'Nightlife District'},
+  waterfront:        {x:320, y:150, w:110, h:70,  label:'Waterfront'},
+  transit_hub:       {x:60,  y:150, w:100, h:70,  label:'Transit Hub'},
+  residential:       {x:170, y:185, w:100, h:65,  label:'Residential'},
+  suburban:          {x:10,  y:10,  w:80,  h:55,  label:'Suburban'},
+};
+const TRANSPORT_STOPS = [
+  {x:108, y:185, label:'Central Station', sub:'Metro · Bus · Night lines'},
+  {x:220, y:130, label:'City Centre Stop', sub:'Tram · Metro'},
+  {x:375, y:185, label:'Harbour Ferry', sub:'Ferry · Water taxi'},
+  {x:310, y:95,  label:'Nightlife Hub', sub:'Night bus · Taxi rank'},
+];
+const EMERGENCY_SVCS = [
+  {x:200, y:115, label:'Main Hospital', sub:'24h A&E · Ambulance'},
+  {x:90,  y:175, label:'Police Station', sub:'Non-urgent: local number'},
+  {x:355, y:160, label:'Coastguard', sub:'Water emergencies'},
+];
+
+let heatmapLayers = {zones:true, hotels:false, transport:false, emergency:false};
+let heatmapCity = '';
+
+function buildHeatmap(city) {
+  heatmapCity = city || heatmapCity;
+  const svg = document.getElementById('heatmap-svg');
+  if (!svg) return;
+  const cityLabel = document.getElementById('heatmap-city-label');
+  if (cityLabel) cityLabel.textContent = heatmapCity;
+
+  // Per-area scores from REVIEWS
+  const cityReviews = REVIEWS.filter(r => r.city === heatmapCity);
+  const areaScores = {};
+  const areaHotels = {};
+  Object.keys(AREA_LAYOUT).forEach(a => {
+    const rs = cityReviews.filter(r => r.area_type === a);
+    if (rs.length) {
+      const avg = rs.reduce((s,r)=>s+parseFloat(r.rating),0)/rs.length;
+      areaScores[a] = Math.round((avg-1)/4*100);
+      areaHotels[a] = [...new Set(rs.map(r=>r.property_name))];
+    } else {
+      // No data for this city — use a neutral mid score
+      areaScores[a] = 55;
+      areaHotels[a] = [];
+    }
+  });
+
+  function zoneColor(score, opacity) {
+    if (score >= 70) return `rgba(14,140,106,${opacity})`;
+    if (score >= 50) return `rgba(217,119,6,${opacity})`;
+    return `rgba(192,57,43,${opacity})`;
+  }
+  function scoreLabel(score) {
+    if (score >= 70) return 'Safe zone';
+    if (score >= 50) return 'Moderate';
+    return 'Use caution';
+  }
+
+  let svgContent = '';
+
+  // Street grid background lines
+  svgContent += `<g opacity="0.25" stroke="#b8cef5" stroke-width="1">
+    <line x1="0" y1="130" x2="440" y2="130"/>
+    <line x1="0" y1="65" x2="440" y2="65"/>
+    <line x1="0" y1="195" x2="440" y2="195"/>
+    <line x1="110" y1="0" x2="110" y2="260"/>
+    <line x1="220" y1="0" x2="220" y2="260"/>
+    <line x1="330" y1="0" x2="330" y2="260"/>
+  </g>`;
+
+  // Safety zones
+  if (heatmapLayers.zones) {
+    Object.entries(AREA_LAYOUT).forEach(([key, zone]) => {
+      const score = areaScores[key];
+      const fill  = zoneColor(score, 0.55);
+      const stroke = zoneColor(score, 0.9);
+      const hotels = areaHotels[key];
+      const hotelList = hotels.length ? hotels.slice(0,3).join(', ') : 'No data';
+      const tipText = `${zone.label}\\nScore: ${score}/100 — ${scoreLabel(score)}\\n${hotelList}`;
+      svgContent += `<rect x="${zone.x}" y="${zone.y}" width="${zone.w}" height="${zone.h}"
+        rx="8" fill="${fill}" stroke="${stroke}" stroke-width="1.5" style="cursor:pointer"
+        onmouseenter="showHeatmapTip(event,'${tipText.replace(/'/g,"&#39;")}')"
+        ontouchstart="showHeatmapTip(event,'${tipText.replace(/'/g,"&#39;")}')"
+        onmouseleave="hideHeatmapTip()" ontouchend="hideHeatmapTip()"/>`;
+      // Zone label
+      const cx = zone.x + zone.w/2;
+      const cy = zone.y + zone.h/2;
+      svgContent += `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="9" font-weight="600"
+        fill="white" style="pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,0.5)">${zone.label}</text>`;
+      svgContent += `<text x="${cx}" y="${cy+8}" text-anchor="middle" font-size="9"
+        fill="rgba(255,255,255,0.9)" style="pointer-events:none">${score}/100</text>`;
+    });
+  }
+
+  // Hotel markers
+  if (heatmapLayers.hotels) {
+    const hotelPositions = [
+      {x:220, y:130, area:'central'},
+      {x:125, y:95,  area:'old_town'},
+      {x:320, y:95,  area:'nightlife_district'},
+      {x:375, y:185, area:'waterfront'},
+      {x:110, y:185, area:'transit_hub'},
+      {x:220, y:218, area:'residential'},
+      {x:50,  y:37,  area:'suburban'},
+    ];
+    hotelPositions.forEach(p => {
+      const hotels = areaHotels[p.area] || [];
+      const preview = hotels.length ? hotels[0] : 'No hotels';
+      const more = hotels.length > 1 ? `+${hotels.length-1} more` : '';
+      const tip = `📍 ${preview}${more ? '\\n'+more : ''}\\n${AREA_LAYOUT[p.area]?.label||''}`;
+      svgContent += `<g style="cursor:pointer"
+        onmouseenter="showHeatmapTip(event,'${tip.replace(/'/g,"&#39;")}')"
+        ontouchstart="showHeatmapTip(event,'${tip.replace(/'/g,"&#39;")}')"
+        onmouseleave="hideHeatmapTip()" ontouchend="hideHeatmapTip()">
+        <circle cx="${p.x}" cy="${p.y}" r="10" fill="white" stroke="#003580" stroke-width="1.5"/>
+        <text x="${p.x}" y="${p.y+4}" text-anchor="middle" font-size="11">📍</text>
+      </g>`;
+    });
+  }
+
+  // Transport markers
+  if (heatmapLayers.transport) {
+    TRANSPORT_STOPS.forEach(t => {
+      const tip = `🚉 ${t.label}\\n${t.sub}`;
+      svgContent += `<g style="cursor:pointer"
+        onmouseenter="showHeatmapTip(event,'${tip}')"
+        ontouchstart="showHeatmapTip(event,'${tip}')"
+        onmouseleave="hideHeatmapTip()" ontouchend="hideHeatmapTip()">
+        <rect x="${t.x-10}" y="${t.y-10}" width="20" height="20" rx="4" fill="#003580"/>
+        <text x="${t.x}" y="${t.y+5}" text-anchor="middle" font-size="12">🚉</text>
+      </g>`;
+    });
+  }
+
+  // Emergency markers
+  if (heatmapLayers.emergency) {
+    EMERGENCY_SVCS.forEach(e => {
+      const tip = `🏥 ${e.label}\\n${e.sub}`;
+      svgContent += `<g style="cursor:pointer"
+        onmouseenter="showHeatmapTip(event,'${tip}')"
+        ontouchstart="showHeatmapTip(event,'${tip}')"
+        onmouseleave="hideHeatmapTip()" ontouchend="hideHeatmapTip()">
+        <circle cx="${e.x}" cy="${e.y}" r="11" fill="#c0392b"/>
+        <text x="${e.x}" y="${e.y+5}" text-anchor="middle" font-size="12">🏥</text>
+      </g>`;
+    });
+  }
+
+  svg.innerHTML = svgContent;
+}
+
+function toggleHeatmapLayer(layer) {
+  heatmapLayers[layer] = !heatmapLayers[layer];
+  const btn = document.getElementById('btn-' + layer);
+  if (heatmapLayers[layer]) {
+    btn.style.background = 'var(--navy)';
+    btn.style.borderColor = 'var(--navy)';
+    btn.style.color = 'white';
+  } else {
+    btn.style.background = 'white';
+    btn.style.borderColor = 'var(--gray-300)';
+    btn.style.color = 'var(--gray-700)';
+  }
+  buildHeatmap();
+}
+
+function showHeatmapTip(e, text) {
+  const tip = document.getElementById('heatmap-tooltip');
+  if (!tip) return;
+  tip.style.display = 'block';
+  tip.innerHTML = text.split('\\n').map((l,i)=>
+    i===0 ? `<strong>${l}</strong>` : `<span style="color:rgba(255,255,255,0.75)">${l}</span>`
+  ).join('<br>');
+  const rect = document.getElementById('heatmap-svg').getBoundingClientRect();
+  const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+  const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+  let lx = cx - rect.left + 8;
+  let ly = cy - rect.top - 10;
+  if (lx + 170 > rect.width) lx = cx - rect.left - 175;
+  tip.style.left = lx + 'px';
+  tip.style.top = ly + 'px';
+}
+function hideHeatmapTip() {
+  const tip = document.getElementById('heatmap-tooltip');
+  if (tip) tip.style.display = 'none';
+}
+
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')}));
 </script>
 </body>
