@@ -264,6 +264,12 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 </style>
 </head>
 <body>
+<div class="splash-screen" id="splash-screen">
+  <div class="splash-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div>
+  <div class="splash-title">Booking.com<br><em>SafeTravel</em></div>
+  <div class="splash-sub">Travel with confidence</div>
+  <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+</div>
 <div class="page">
   <div class="hero">
     <div class="hero-logo">
@@ -295,36 +301,6 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 
   <!-- BEFORE BOOKING -->
   <section id="sec-before" class="section active">
-    <div class="explainer-card" style="margin-top:20px">
-      <div class="explainer-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        How safety scores work
-      </div>
-      <div class="explainer-grid">
-        <div class="explainer-item">
-          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">1</div>
-          <div class="explainer-item-text"><strong>Traveller reviews</strong>Thousands of verified guest ratings from that property</div>
-        </div>
-        <div class="explainer-item">
-          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">2</div>
-          <div class="explainer-item-text"><strong>Area crime data</strong>Neighbourhood safety index from local authorities</div>
-        </div>
-        <div class="explainer-item">
-          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">3</div>
-          <div class="explainer-item-text"><strong>Night safety</strong>Lighting, CCTV coverage &amp; late-night foot traffic</div>
-        </div>
-        <div class="explainer-item">
-          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">4</div>
-          <div class="explainer-item-text"><strong>Solo &amp; female rating</strong>Specific feedback from solo and female travellers</div>
-        </div>
-      </div>
-      <div class="score-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div><span style="color:var(--teal)">70–100 Very safe</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div><span style="color:var(--amber)">50–69 Moderate</span></div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span style="color:var(--red)">0–49 Use caution</span></div>
-      </div>
-    </div>
-
     <div id="hotel-picker" class="picker-box">
       <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:4px">Where are you staying?</div>
       <div style="font-size:13px;color:var(--gray-500);margin-bottom:16px">Select your city and hotel to see its safety score</div>
@@ -340,6 +316,33 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         View safety score
       </button>
+
+      <!-- WHY BOOKING.COM trust card -->
+      <div class="trust-card">
+        <div class="explainer-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Why travellers trust SafeTravel
+        </div>
+        <div class="explainer-grid">
+          <div class="explainer-item">
+            <div class="explainer-dot trust-dot">★</div>
+            <div class="explainer-item-text"><strong>500M+ reviews</strong>Real feedback from real travellers, checked for authenticity</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot trust-dot">✓</div>
+            <div class="explainer-item-text"><strong>Trusted worldwide</strong>30M+ travellers use Booking.com safety tools every year</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot trust-dot">⏱</div>
+            <div class="explainer-item-text"><strong>Always up to date</strong>Safety data refreshed regularly from local sources</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot trust-dot">♥</div>
+            <div class="explainer-item-text"><strong>Built for peace of mind</strong>Loved by solo, female &amp; family travellers alike</div>
+          </div>
+        </div>
+        <div class="trust-footer">Free to use · Available in 40+ languages · 24/7 support</div>
+      </div>
     </div>
 
     <div id="hotel-detail" style="display:none;padding:20px">
@@ -384,6 +387,37 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         </div>
         <div class="divider-lbl">Breakdown</div>
         <div class="breakdown-list" id="breakdown-list"></div>
+      </div>
+
+      <!-- HOW SCORES WORK explainer -->
+      <div class="explainer-card" style="margin:0 0 16px">
+        <div class="explainer-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          How safety scores work
+        </div>
+        <div class="explainer-grid">
+          <div class="explainer-item">
+            <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">1</div>
+            <div class="explainer-item-text"><strong>Traveller reviews</strong>Thousands of verified guest ratings from that property</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">2</div>
+            <div class="explainer-item-text"><strong>Area crime data</strong>Neighbourhood safety index from local authorities</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">3</div>
+            <div class="explainer-item-text"><strong>Night safety</strong>Lighting, CCTV coverage &amp; late-night foot traffic</div>
+          </div>
+          <div class="explainer-item">
+            <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">4</div>
+            <div class="explainer-item-text"><strong>Solo &amp; female rating</strong>Specific feedback from solo and female travellers</div>
+          </div>
+        </div>
+        <div class="score-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div><span style="color:var(--teal)">70–100 Very safe</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div><span style="color:var(--amber)">50–69 Moderate</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span style="color:var(--red)">0–49 Use caution</span></div>
+        </div>
       </div>
 
       <div class="info-card">
@@ -563,7 +597,6 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 
         <div id="safe-confirmed" style="display:none">
           <div class="safe-confirmed">
-            <div class="safe-confirmed-icon">✅</div>
             <div class="safe-confirmed-title">Contacts notified — you're all set!</div>
             <div class="safe-confirmed-sub">Returning to destination planner in a moment…</div>
           </div>
@@ -754,18 +787,31 @@ let selectedCity = '', selectedHotel = '', arrivalH = 0, arrivalM = 0;
   for (let i = 0; i < 60; i += 5) { const o = document.createElement('option'); o.value = String(i).padStart(2, '0'); o.textContent = String(i).padStart(2, '0'); mSel.appendChild(o); }
 })();
 
-// ── TAB NAVIGATION ────────────────────────────────────────────────────────────
-function showTab(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-' + id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (id === 'after') { if (!heatmapCity) buildHeatmap('Amsterdam'); }
-  if (id === 'arrival') {
-    const now = new Date();
-    document.getElementById('arrival-hour').value = String(now.getHours()).padStart(2, '0');
-    document.getElementById('arrival-min').value = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
+// Splash screen: hide after 5 seconds
+window.addEventListener('DOMContentLoaded',function(){
+  setTimeout(function(){
+    const splash=document.getElementById('splash-screen');
+    if(splash)splash.classList.add('hide');
+  },5000);
+});
+
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='after'){
+    if(!heatmapCity){
+      const city=selectedCity||'Amsterdam';
+      document.getElementById('after-city').textContent=city;
+      buildHeatmap(city);
+    }
+  }
+  if(id==='arrival'){
+    const now=new Date();
+    document.getElementById('arrival-hour').value=String(now.getHours()).padStart(2,'0');
+    document.getElementById('arrival-min').value=String(Math.floor(now.getMinutes()/5)*5).padStart(2,'0');
   }
 }
 
@@ -908,18 +954,18 @@ function doCheckin(type) {
     showToast('✓ Contacts notified — safe arrival confirmed');
     setTimeout(() => {
       resetCheckin();
-      showTab('arrival', document.getElementById('arrival-tab-btn'));
-    }, 3000);
-  } else if (type === 'extend') {
-    const mins = parseInt(document.getElementById('extend-mins').value);
-    arrivalM += mins;
-    arrivalH += Math.floor(arrivalM / 60);
-    arrivalM = arrivalM % 60;
-    const newTime = String(arrivalH % 24).padStart(2, '0') + ':' + String(arrivalM).padStart(2, '0');
-    circle.textContent = '⏰'; circle.className = 'checkin-circle extend';
-    document.getElementById('checkin-title').textContent = 'Timer extended';
-    document.getElementById('checkin-sub').textContent = 'New check-in deadline: ' + newTime + '.\nContacts will be alerted if not confirmed.';
-    showToast('⏰ Check-in extended to ' + newTime);
+      showTab('arrival',document.getElementById('arrival-tab-btn'));
+    },5000);
+  } else if(type==='extend'){
+    const mins=parseInt(document.getElementById('extend-mins').value);
+    arrivalM+=mins;
+    arrivalH+=Math.floor(arrivalM/60);
+    arrivalM=arrivalM%60;
+    const newTime=String(arrivalH%24).padStart(2,'0')+':'+String(arrivalM).padStart(2,'0');
+    circle.textContent='⏰';circle.className='checkin-circle extend';
+    document.getElementById('checkin-title').textContent='Timer extended';
+    document.getElementById('checkin-sub').textContent='New check-in deadline: '+newTime+'.\nContacts will be alerted if not confirmed.';
+    showToast('⏰ Check-in extended to '+newTime);
   } else {
     circle.textContent = '🚨'; circle.className = 'checkin-circle alert';
     document.getElementById('checkin-title').textContent = 'Alert sent to contacts';
@@ -941,12 +987,18 @@ function resetCheckin() {
   document.getElementById('checkin-sub').textContent = 'Enter your destination below to start tracking your arrival';
 }
 
-function pickExtendPill(btn) {
-  document.querySelectorAll('.extend-pill').forEach(p => p.classList.remove('active'));
+function pickExtendPill(btn){
+  document.querySelectorAll('.extend-pill').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('extend-mins').value = btn.dataset.mins;
-  const labels = { 15: '15 min', 30: '30 min', 45: '45 min', 60: '1 hour', 90: '1.5 hrs', 120: '2 hours' };
-  document.getElementById('extend-label').textContent = labels[btn.dataset.mins] || btn.dataset.mins + ' min';
+  document.getElementById('extend-mins').value=btn.dataset.mins;
+  const labels={15:'15 min',30:'30 min',45:'45 min',60:'1 hour',90:'1.5 hrs',120:'2 hours'};
+  document.getElementById('extend-label').textContent=labels[btn.dataset.mins]||btn.dataset.mins+' min';
+}
+
+function updateExtendLabel(){
+  const v=document.getElementById('extend-mins').value;
+  const labels={15:'15 min',30:'30 min',45:'45 min',60:'1 hour',90:'1.5 hrs',120:'2 hours'};
+  document.getElementById('extend-label').textContent=labels[v]||v+' min';
 }
 
 // ── MODALS & TOASTS ───────────────────────────────────────────────────────────
