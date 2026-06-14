@@ -260,7 +260,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
       <div class="book-cta">
         <button class="book-btn" onclick="bookNow()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          Book — get your safety guide
+          Book: get your safety guide
         </button>
       </div>
     </div>
@@ -281,7 +281,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         <div class="tip-list">
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Centrum is generally very safe for solo female travellers. Stick to well-lit streets after midnight.</div></div>
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Vondelpark and Westerpark are great daytime spots. Avoid Vondelpark alone after 22:00.</div></div>
-          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">The Red Light District is tourist-heavy but can feel uncomfortable late at night solo — go with company.</div></div>
+          <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">The Red Light District is tourist-heavy but can feel uncomfortable late at night solo: go with company.</div></div>
           <div class="tip-item"><div class="tip-dot"></div><div class="tip-text">Watch for pickpockets on trams near Centraal Station. Keep bags in front of you.</div></div>
         </div>
       </div>
@@ -382,7 +382,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
           <div class="checkin-actions">
             <button class="btn-primary" onclick="doCheckin('safe')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              I'm safe — arrived at hotel
+              I'm safe: arrived at hotel
             </button>
             <div style="display:flex;gap:8px;align-items:center">
               <button class="btn-secondary" style="flex:1;font-size:12px" onclick="doCheckin('extend')">
@@ -412,7 +412,7 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
         <div id="safe-confirmed" style="display:none">
           <div class="safe-confirmed">
             <div class="safe-confirmed-icon">✅</div>
-            <div class="safe-confirmed-title">Contacts notified — you're all set!</div>
+            <div class="safe-confirmed-title">Contacts notified: you're all set!</div>
             <div class="safe-confirmed-sub">Returning to destination planner in a moment…</div>
           </div>
         </div>
@@ -641,7 +641,7 @@ function doCheckin(type){
     circle.textContent='✅';circle.className='checkin-circle safe';
     document.getElementById('checkin-title').textContent='Safely arrived!';
     document.getElementById('checkin-sub').textContent='Mama and Sara have been notified.\nEnjoy your stay!';
-    showToast('✓ Contacts notified — safe arrival confirmed');
+    showToast('✓ Contacts notified: safe arrival confirmed');
     // after 3s reset and switch tab
     setTimeout(()=>{
       resetCheckin();
