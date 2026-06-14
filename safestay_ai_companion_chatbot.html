@@ -1,0 +1,451 @@
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--navy:#003580;--navy-deep:#001f4d;--navy-mid:#0f4a9c;
+--blue-soft:#e8f0fb;--blue-mid:#b8cef5;
+--teal:#0e8c6a;--teal-soft:#e2f5ef;
+--amber:#d97706;--amber-soft:#fef3c7;
+--red:#c0392b;--red-soft:#fdecea;
+--purple:#6d4fc7;--purple-soft:#ede9fb;
+--gray-50:#f8f9fb;--gray-100:#f0f2f6;--gray-200:#e2e6ed;--gray-300:#c8cdd8;
+--gray-500:#8892a4;--gray-700:#3d4657;--gray-900:#1a2033;
+--white:#ffffff;
+--radius-sm:8px;--radius-md:12px;--radius-lg:18px;
+}
+.phone{width:100%;max-width:420px;margin:0 auto;background:var(--white);border:1px solid var(--gray-200);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;height:680px;font-family:'DM Sans',system-ui,sans-serif}
+.chat-header{background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy-mid) 100%);padding:14px 16px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-icon{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.header-info{flex:1}
+.header-title{font-size:15px;font-weight:600;color:white;line-height:1.2}
+.header-sub{font-size:11px;color:rgba(255,255,255,0.6)}
+.header-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;margin-left:auto;box-shadow:0 0 0 2px rgba(34,197,94,0.3)}
+.screens{flex:1;overflow:hidden;position:relative}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.25s,transform 0.25s;overflow:hidden}
+.screen.hidden{opacity:0;pointer-events:none;transform:translateX(20px)}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.home-screen{background:var(--gray-50);overflow-y:auto}
+.home-hero{padding:20px 16px 0}
+.home-hero-title{font-size:20px;font-weight:700;color:var(--gray-900);line-height:1.25;margin-bottom:4px}
+.home-hero-sub{font-size:13px;color:var(--gray-500);margin-bottom:16px}
+.hotel-ctx{background:var(--white);border:1px solid var(--blue-mid);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.hotel-ctx-icon{font-size:22px}
+.hotel-ctx-name{font-size:13px;font-weight:600;color:var(--navy)}
+.hotel-ctx-loc{font-size:11px;color:var(--gray-500)}
+.hotel-ctx-score{margin-left:auto;font-size:18px;font-weight:700;color:var(--teal)}
+.prompts-label{font-size:11px;font-weight:600;color:var(--gray-500);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;padding:0 16px}
+.prompt-chip{display:block;width:100%;text-align:left;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:11px 14px;margin:0 16px 8px;width:calc(100% - 32px);cursor:pointer;font-family:inherit;font-size:13px;color:var(--gray-700);transition:all 0.15s;display:flex;align-items:center;gap:8px}
+.prompt-chip:hover{border-color:var(--navy);color:var(--navy);background:var(--blue-soft)}
+.prompt-icon{font-size:15px;flex-shrink:0}
+.chat-area{flex:1;overflow-y:auto;padding:12px 12px 0;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:8px;align-items:flex-end}
+.msg.user{flex-direction:row-reverse}
+.msg-avatar{width:28px;height:28px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:11px;color:white;flex-shrink:0;font-weight:600}
+.msg-avatar.ai{background:linear-gradient(135deg,var(--navy-deep),var(--navy-mid));font-size:13px}
+.bubble{max-width:85%;padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.55;color:var(--gray-900)}
+.bubble.ai{background:var(--white);border:1px solid var(--gray-200);border-bottom-left-radius:4px}
+.bubble.user{background:var(--navy);color:white;border-bottom-right-radius:4px}
+.score-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:12px;margin-top:6px}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.score-circle{width:52px;height:52px;background:var(--teal-soft);border:2px solid var(--teal);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.score-num{font-size:17px;font-weight:700;color:var(--teal);line-height:1}
+.score-lbl{font-size:9px;color:var(--teal);font-weight:500}
+.score-title{font-size:14px;font-weight:600;color:var(--gray-900)}
+.score-desc{font-size:11px;color:var(--gray-500)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:3px}
+.tag.pos{background:var(--teal-soft);color:var(--teal)}
+.tag.neg{background:var(--red-soft);color:var(--red)}
+.tag.warn{background:var(--amber-soft);color:var(--amber)}
+.mini-bar{margin-top:4px}
+.mini-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.mini-bar-lbl{font-size:10px;color:var(--gray-700);width:90px;flex-shrink:0}
+.mini-bar-track{flex:1;height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:2px;background:var(--teal)}
+.mini-bar-num{font-size:10px;font-weight:600;color:var(--gray-700);width:22px;text-align:right}
+.explain-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:var(--blue-soft);border:1px solid var(--blue-mid);border-radius:20px;font-size:11px;font-weight:600;color:var(--navy);cursor:pointer;margin-top:8px;font-family:inherit}
+.list-item{display:flex;gap:7px;margin-bottom:5px;font-size:12px;color:var(--gray-700);line-height:1.45}
+.list-dot{width:5px;height:5px;background:currentColor;border-radius:50%;flex-shrink:0;margin-top:5px}
+.list-dot.pos{color:var(--teal)}
+.list-dot.neg{color:var(--red)}
+.section-lbl{font-size:10px;font-weight:700;color:var(--gray-500);letter-spacing:0.08em;text-transform:uppercase;margin:8px 0 4px}
+.emer-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.emer-cell{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:8px 10px}
+.emer-num{font-size:14px;font-weight:700;color:var(--navy)}
+.emer-lbl{font-size:10px;color:var(--gray-500)}
+.transport-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--gray-100)}
+.transport-row:last-child{border-bottom:none}
+.t-icon{width:28px;height:28px;background:var(--blue-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.t-name{font-size:12px;font-weight:600;color:var(--gray-900);flex:1}
+.t-sub{font-size:10px;color:var(--gray-500)}
+.t-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px}
+.badge-green{background:var(--teal-soft);color:var(--teal)}
+.badge-amber{background:var(--amber-soft);color:var(--amber)}
+.badge-red{background:var(--red-soft);color:var(--red)}
+.emer-alert{background:var(--red-soft);border:1px solid #f5c6c2;border-radius:var(--radius-md);padding:12px;margin-top:6px}
+.emer-alert-title{font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px}
+.alt-option{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:5px;font-size:12px;color:var(--gray-700)}
+.alt-icon{margin-right:5px}
+.typing{display:flex;gap:4px;align-items:center;padding:8px 10px}
+.typing-dot{width:6px;height:6px;background:var(--gray-300);border-radius:50%;animation:typingBounce 1.2s infinite}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.chat-input-bar{padding:10px 12px;border-top:1px solid var(--gray-200);display:flex;gap:8px;flex-shrink:0;background:var(--white)}
+.chat-input{flex:1;padding:9px 13px;border:1px solid var(--gray-200);border-radius:20px;font-family:inherit;font-size:13px;color:var(--gray-900);outline:none;background:var(--gray-50)}
+.chat-input:focus{border-color:var(--navy);background:var(--white)}
+.send-btn{width:36px;height:36px;background:var(--navy);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.send-btn:hover{background:var(--navy-mid)}
+.send-btn svg{width:15px;height:15px;fill:white}
+.back-btn{background:none;border:none;cursor:pointer;font-size:12px;color:rgba(255,255,255,0.7);font-family:inherit;display:flex;align-items:center;gap:4px;padding:0}
+.back-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,0.7);fill:none}
+.confidence-bar{background:var(--gray-50);border-radius:var(--radius-sm);padding:8px 10px;margin-top:8px;display:flex;align-items:center;gap:8px}
+.conf-label{font-size:10px;color:var(--gray-500);white-space:nowrap}
+.conf-track{flex:1;height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden}
+.conf-fill{height:100%;border-radius:2px;background:var(--navy)}
+.conf-pct{font-size:10px;font-weight:700;color:var(--navy)}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">SafeStay AI Companion chatbot — interactive demo with 5 conversation scenarios</h2>
+
+<div class="phone">
+  <div class="chat-header" id="mainHeader">
+    <div class="header-icon">🛡️</div>
+    <div class="header-info">
+      <div class="header-title">SafeStay AI Companion</div>
+      <div class="header-sub">Powered by review intelligence</div>
+    </div>
+    <div class="header-dot"></div>
+  </div>
+
+  <div class="screens">
+
+    <!-- HOME SCREEN -->
+    <div class="screen active" id="screen-home">
+      <div class="home-screen" style="overflow-y:auto;flex:1">
+        <div class="home-hero">
+          <div class="home-hero-title">Ask anything about your safety while traveling.</div>
+          <div class="home-hero-sub">AI-powered insights from thousands of verified reviews</div>
+          <div class="hotel-ctx">
+            <div class="hotel-ctx-icon">🏨</div>
+            <div>
+              <div class="hotel-ctx-name">Hotel Artemis, Amsterdam</div>
+              <div class="hotel-ctx-loc">Jordaan · 4-star</div>
+            </div>
+            <div class="hotel-ctx-score">87</div>
+          </div>
+        </div>
+        <div class="prompts-label" style="padding:0 16px">Suggested questions</div>
+        <button class="prompt-chip" onclick="openChat('safety')"><span class="prompt-icon">🛡️</span>Is this hotel safe for solo female travelers?</button>
+        <button class="prompt-chip" onclick="openChat('concerns')"><span class="prompt-icon">🔍</span>What concerns appear most often in reviews?</button>
+        <button class="prompt-chip" onclick="openChat('night')"><span class="prompt-icon">🌙</span>Can I safely walk here at night?</button>
+        <button class="prompt-chip" onclick="openChat('transport')"><span class="prompt-icon">🚕</span>What transport should I use after midnight?</button>
+        <button class="prompt-chip" onclick="openChat('emergency')"><span class="prompt-icon">🆘</span>I feel unsafe — what should I do?</button>
+        <div style="height:16px"></div>
+      </div>
+    </div>
+
+    <!-- CHAT: SAFETY ANALYSIS -->
+    <div class="screen hidden" id="screen-safety">
+      <div class="chat-area" id="chat-safety">
+        <div class="msg user"><div class="bubble user">Is Hotel Artemis safe for solo women?</div><div class="msg-avatar">ME</div></div>
+        <div class="msg" id="typing-safety"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>
+      </div>
+      <div class="chat-input-bar">
+        <input class="chat-input" id="input-safety" placeholder="Ask a follow-up question…" onkeydown="handleKey(event,'safety')"/>
+        <button class="send-btn" onclick="sendMsg('safety')" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- CHAT: CONCERNS -->
+    <div class="screen hidden" id="screen-concerns">
+      <div class="chat-area" id="chat-concerns">
+        <div class="msg user"><div class="bubble user">What are the biggest concerns guests mention?</div><div class="msg-avatar">ME</div></div>
+        <div class="msg" id="typing-concerns"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>
+      </div>
+      <div class="chat-input-bar">
+        <input class="chat-input" id="input-concerns" placeholder="Ask a follow-up question…" onkeydown="handleKey(event,'concerns')"/>
+        <button class="send-btn" onclick="sendMsg('concerns')" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- CHAT: NIGHT SAFETY -->
+    <div class="screen hidden" id="screen-night">
+      <div class="chat-area" id="chat-night">
+        <div class="msg user"><div class="bubble user">Can I safely walk here at night?</div><div class="msg-avatar">ME</div></div>
+        <div class="msg" id="typing-night"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>
+      </div>
+      <div class="chat-input-bar">
+        <input class="chat-input" id="input-night" placeholder="Ask a follow-up question…" onkeydown="handleKey(event,'night')"/>
+        <button class="send-btn" onclick="sendMsg('night')" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- CHAT: TRANSPORT -->
+    <div class="screen hidden" id="screen-transport">
+      <div class="chat-area" id="chat-transport">
+        <div class="msg user"><div class="bubble user">What transport should I use after midnight?</div><div class="msg-avatar">ME</div></div>
+        <div class="msg" id="typing-transport"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>
+      </div>
+      <div class="chat-input-bar">
+        <input class="chat-input" id="input-transport" placeholder="Ask a follow-up question…" onkeydown="handleKey(event,'transport')"/>
+        <button class="send-btn" onclick="sendMsg('transport')" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+    <!-- CHAT: EMERGENCY -->
+    <div class="screen hidden" id="screen-emergency">
+      <div class="chat-area" id="chat-emergency">
+        <div class="msg user"><div class="bubble user">I feel unsafe walking back to my hotel.</div><div class="msg-avatar">ME</div></div>
+        <div class="msg" id="typing-emergency"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>
+      </div>
+      <div class="chat-input-bar">
+        <input class="chat-input" id="input-emergency" placeholder="I'm here to help — what do you need?" onkeydown="handleKey(event,'emergency')"/>
+        <button class="send-btn" onclick="sendMsg('emergency')" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let activeScreen = 'home';
+
+const SYSTEM_PROMPT = `You are SafeStay AI, a travel safety companion embedded in Booking.com. You specialize in women's solo travel safety. You have access to a dataset of accommodation reviews with safety labels, safety signals, location data, and solo female traveler feedback for Hotel Artemis in Amsterdam's Jordaan neighborhood (safety score: 87/100).
+
+Always be concise, warm, and professional. Structure responses clearly. When relevant, cite review percentages. Never be alarmist but always be honest about risks. Keep responses under 180 words.
+
+Current context: The user is considering or has booked Hotel Artemis, Amsterdam, Jordaan district (4-star, safety score 87/100). 87% of solo female reviews were positive for safety. Key positive signals: 24hr staffed reception, well-lit entrance, secure key-card access, central location. Minor concerns: loud bar street 2 blocks away (Leidseplein area), some reports of motorbike pickpockets near Waterlooplein market.`;
+
+const PREFILL_RESPONSES = {
+  safety: null,
+  concerns: null,
+  night: null,
+  transport: null,
+  emergency: null
+};
+
+const PREFILL_HTML = {
+  safety: buildSafetyCard(),
+  concerns: buildConcernsCard(),
+  night: buildNightCard(),
+  transport: buildTransportCard(),
+  emergency: buildEmergencyCard()
+};
+
+function buildSafetyCard() {
+  return `<div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--gray-700)">Here's the safety analysis for <strong>Hotel Artemis</strong> based on 2,340+ verified reviews:</div>
+    <div class="score-card">
+      <div class="score-row">
+        <div class="score-circle"><div class="score-num">87</div><div class="score-lbl">/ 100</div></div>
+        <div><div class="score-title">Very Safe</div><div class="score-desc">Top 12% of Amsterdam hotels</div></div>
+      </div>
+      <div class="mini-bar">
+        <div class="mini-bar-row"><div class="mini-bar-lbl">Solo female reviews</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:87%"></div></div><div class="mini-bar-num">87%</div></div>
+        <div class="mini-bar-row"><div class="mini-bar-lbl">Night safety</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:79%"></div></div><div class="mini-bar-num">79%</div></div>
+        <div class="mini-bar-row"><div class="mini-bar-lbl">Staff helpfulness</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:93%"></div></div><div class="mini-bar-num">93%</div></div>
+        <div class="mini-bar-row"><div class="mini-bar-lbl">Neighborhood feel</div><div class="mini-bar-track"><div class="mini-bar-fill" style="width:82%"></div></div><div class="mini-bar-num">82%</div></div>
+      </div>
+      <div class="tags" style="margin-top:10px">
+        <span class="tag pos">✓ 24hr staffed desk</span>
+        <span class="tag pos">✓ Well-lit entrance</span>
+        <span class="tag pos">✓ Key-card access</span>
+        <span class="tag warn">⚠ Bar street nearby</span>
+      </div>
+      <button class="explain-btn" onclick="explainScore()">🔍 Why this score?</button>
+    </div>
+    <div style="font-size:12px;color:var(--gray-500);margin-top:8px">Based on 412 reviews mentioning safety from solo female travelers.</div>
+  </div>`;
+}
+
+function buildConcernsCard() {
+  return `<div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--gray-700)">I analyzed <strong>2,340 reviews</strong> for Hotel Artemis. Here's what guests flag most:</div>
+    <div class="score-card">
+      <div class="section-lbl" style="color:var(--red)">⚠ Most common concerns</div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Noisy street-level rooms facing Leidseplein bar area (mentioned in 18% of reviews)</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Motorbike pickpockets near Waterlooplein market, 10 min walk away</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Occasional groups of rowdy tourists late Friday/Saturday nights</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Limited streetlighting on the canal-side alley on the east side</div></div>
+      <div class="section-lbl" style="color:var(--teal);margin-top:10px">✓ Positive findings</div>
+      <div class="list-item"><div class="list-dot pos"></div><div>Reception staff praised by 93% — responsive and safety-aware</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div>Secure key-card lifts and corridors throughout</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div>In-room safe present in all rooms</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div>Well-lit main entrance on Keizersgracht side</div></div>
+    </div>
+  </div>`;
+}
+
+function buildNightCard() {
+  return `<div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--gray-700)">Based on reviews mentioning <strong>night walks in Jordaan</strong>:</div>
+    <div class="score-card">
+      <div class="tags" style="margin-bottom:10px">
+        <span class="tag pos">✓ Generally safe until 1am</span>
+        <span class="tag warn">⚠ Avoid after 2am alone</span>
+      </div>
+      <div class="section-lbl">Routes from hotel</div>
+      <div class="list-item"><div class="list-dot pos"></div><div><strong>Keizersgracht canal path</strong> — well-lit, busy until midnight. Recommended route.</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div><strong>Haarlemmerstraat</strong> — main street, good lighting, open cafés.</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div><strong>Avoid the east alley</strong> behind the hotel after 11pm — poor lighting, noted in 7 recent reviews.</div></div>
+      <div class="list-item"><div class="list-dot warn" style="color:var(--amber)"></div><div><strong>Leidseplein (2 blocks south)</strong> — lively but can get very rowdy after midnight. Stay aware.</div></div>
+      <div style="background:var(--blue-soft);border-radius:var(--radius-sm);padding:8px 10px;margin-top:8px;font-size:11px;color:var(--navy)">
+        💡 <strong>Tip from reviews:</strong> Solo travelers recommend staying on Keizersgracht side and sharing location with a trusted contact before late walks.
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildTransportCard() {
+  return `<div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--gray-700)">Late-night transport options near <strong>Hotel Artemis</strong>:</div>
+    <div class="score-card">
+      <div class="transport-row"><div class="t-icon">🚖</div><div><div class="t-name">Uber / Bolt</div><div class="t-sub">5–8 min wait at night</div></div><div class="t-badge badge-green">Recommended</div></div>
+      <div class="transport-row"><div class="t-icon">🚕</div><div><div class="t-name">TCA Taxi (official)</div><div class="t-sub">Book via app or hotel desk</div></div><div class="t-badge badge-green">Safe</div></div>
+      <div class="transport-row"><div class="t-icon">🚋</div><div><div class="t-name">Night tram (N1/N2)</div><div class="t-sub">Runs 00:30–06:00, can be crowded</div></div><div class="t-badge badge-amber">With care</div></div>
+      <div class="transport-row"><div class="t-icon">🚲</div><div><div class="t-name">Cycling</div><div class="t-sub">Only on lit main routes</div></div><div class="t-badge badge-amber">After 1am: avoid</div></div>
+      <div class="transport-row"><div class="t-icon">🚶</div><div><div class="t-name">Walking alone after 2am</div><div class="t-sub">Back streets not recommended</div></div><div class="t-badge badge-red">Use caution</div></div>
+      <div style="background:var(--blue-soft);border-radius:var(--radius-sm);padding:8px 10px;margin-top:8px;font-size:11px;color:var(--navy)">
+        💡 Hotel Artemis staff can call a verified taxi anytime. Front desk: <strong>+31 20 555 0100</strong>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildEmergencyCard() {
+  return `<div>
+    <div style="background:var(--red-soft);border:1px solid #f5c6c2;border-radius:var(--radius-md);padding:10px 12px;margin-bottom:8px">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">I'm here — you're not alone. 💙</div>
+      <div style="font-size:12px;color:#7b2d25">Your safety is the priority. Let's get you somewhere safe right now.</div>
+    </div>
+    <div class="score-card">
+      <div class="section-lbl">Immediate steps</div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Move to a well-lit busy area — a café, shop, or petrol station</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Call your hotel: <strong>+31 20 555 0100</strong> — they can send a verified taxi to your location</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div>Open Uber or Bolt — share your location with a trusted contact</div></div>
+      <div class="section-lbl" style="margin-top:10px">Emergency numbers (NL)</div>
+      <div class="emer-grid">
+        <div class="emer-cell"><div class="emer-num">112</div><div class="emer-lbl">Police/Ambulance</div></div>
+        <div class="emer-cell"><div class="emer-num">0900-8844</div><div class="emer-lbl">Non-urgent police</div></div>
+        <div class="emer-cell"><div class="emer-num">+31 20 555 0100</div><div class="emer-lbl">Hotel Artemis</div></div>
+        <div class="emer-cell"><div class="emer-num">020 624 5511</div><div class="emer-lbl">Amsterdam safe taxi</div></div>
+      </div>
+      <div style="background:var(--purple-soft);border-radius:var(--radius-sm);padding:8px 10px;margin-top:10px;font-size:11px;color:var(--purple)">
+        💜 If you feel you're being followed, enter any open shop and ask staff to call you a taxi. You don't have to explain.
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--gray-500);margin-top:6px">Tell me where you are and I can give more specific guidance.</div>
+  </div>`;
+}
+
+function openChat(type) {
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-home').classList.add('hidden');
+  document.getElementById('screen-' + type).classList.remove('hidden');
+  document.getElementById('screen-' + type).classList.add('active');
+  activeScreen = type;
+
+  document.getElementById('mainHeader').innerHTML = `
+    <button class="back-btn" onclick="goHome()">
+      <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <div class="header-icon" style="margin-left:4px">🛡️</div>
+    <div class="header-info">
+      <div class="header-title">SafeStay AI</div>
+      <div class="header-sub">Hotel Artemis · Amsterdam</div>
+    </div>
+    <div class="header-dot"></div>
+  `;
+
+  setTimeout(() => showAIResponse(type), 1400);
+}
+
+function showAIResponse(type) {
+  const typingEl = document.getElementById('typing-' + type);
+  if (!typingEl) return;
+  typingEl.outerHTML = `<div class="msg" id="ai-msg-${type}"><div class="msg-avatar ai">🛡️</div><div class="bubble ai">${PREFILL_HTML[type]}</div></div>`;
+  const chatEl = document.getElementById('chat-' + type);
+  if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function explainScore() {
+  const chat = document.getElementById('chat-safety');
+  if (!chat) return;
+  const explainHTML = `<div>
+    <div style="font-size:13px;color:var(--gray-700);margin-bottom:8px"><strong>How we calculated the 87/100 score:</strong></div>
+    <div class="score-card">
+      <div class="list-item"><div class="list-dot pos"></div><div><strong>412 solo female reviews</strong> — 87% rated safety positively. Each is NLP-tagged for safety signals. (+34 pts)</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div><strong>Jordaan neighborhood index</strong> — Low crime area per Amsterdam municipality data 2024. (+24 pts)</div></div>
+      <div class="list-item"><div class="list-dot pos"></div><div><strong>Property signals</strong> — 24hr desk, key-card, CCTV confirmed in reviews. (+19 pts)</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div><strong>Noise/rowdiness mentions</strong> — 18% cite bar area disruption. (−6 pts)</div></div>
+      <div class="list-item"><div class="list-dot neg"></div><div><strong>Night lighting gap</strong> — east alley flagged in 7 recent reviews. (−4 pts)</div></div>
+      <div class="confidence-bar">
+        <div class="conf-label">Confidence</div>
+        <div class="conf-track"><div class="conf-fill" style="width:91%"></div></div>
+        <div class="conf-pct">91%</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--gray-500);margin-top:6px">Score refreshes as new reviews arrive. Last updated: 3 days ago.</div>
+  </div>`;
+  chat.insertAdjacentHTML('beforeend', `<div class="msg"><div class="msg-avatar ai">🛡️</div><div class="bubble ai">${explainHTML}</div></div>`);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendMsg(type) {
+  const input = document.getElementById('input-' + type);
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  const chat = document.getElementById('chat-' + type);
+  chat.insertAdjacentHTML('beforeend', `<div class="msg user"><div class="bubble user">${escHtml(msg)}</div><div class="msg-avatar">ME</div></div>`);
+  const typingId = 'typing-follow-' + Date.now();
+  chat.insertAdjacentHTML('beforeend', `<div class="msg" id="${typingId}"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`);
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{role:'user', content: msg}]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.map(b => b.text || '').join('') || 'I couldn\'t get a response. Please try again.';
+    document.getElementById(typingId).outerHTML = `<div class="msg"><div class="msg-avatar ai">🛡️</div><div class="bubble ai"><div style="font-size:13px;line-height:1.6;white-space:pre-wrap">${escHtml(text)}</div></div></div>`;
+  } catch(e) {
+    document.getElementById(typingId).outerHTML = `<div class="msg"><div class="msg-avatar ai">🛡️</div><div class="bubble ai" style="font-size:13px;color:var(--red)">Connection error. Please check your network and try again.</div></div>`;
+  }
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function handleKey(e, type) {
+  if (e.key === 'Enter') sendMsg(type);
+}
+
+function goHome() {
+  document.getElementById('screen-' + activeScreen).classList.remove('active');
+  document.getElementById('screen-' + activeScreen).classList.add('hidden');
+  document.getElementById('screen-home').classList.remove('hidden');
+  document.getElementById('screen-home').classList.add('active');
+  activeScreen = 'home';
+  document.getElementById('mainHeader').innerHTML = `
+    <div class="header-icon">🛡️</div>
+    <div class="header-info">
+      <div class="header-title">SafeStay AI Companion</div>
+      <div class="header-sub">Powered by review intelligence</div>
+    </div>
+    <div class="header-dot"></div>
+  `;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
