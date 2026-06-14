@@ -154,6 +154,9 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 .notification-toast{display:none;position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--gray-900);color:white;font-size:13px;padding:10px 18px;border-radius:24px;z-index:1000;white-space:nowrap;box-shadow:var(--shadow-md)}
 .notification-toast.show{display:block;animation:toastIn 0.3s ease}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.extend-pill{padding:8px 4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--purple);background:white;border:1.5px solid #d6cef6;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.15s;text-align:center}
+.extend-pill:hover{background:var(--purple-soft);border-color:var(--purple)}
+.extend-pill.active{background:var(--purple);color:white;border-color:var(--purple)}
 .safe-confirmed{text-align:center;padding:12px 0 4px}
 .safe-confirmed-icon{font-size:48px;margin-bottom:8px}
 .safe-confirmed-title{font-size:15px;font-weight:600;color:var(--teal);margin-bottom:4px}
@@ -439,19 +442,24 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               I'm safe — arrived at hotel
             </button>
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="doCheckin('extend')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div style="background:var(--purple-soft);border:1px solid #d6cef6;border-radius:var(--radius-md);padding:14px 14px 12px">
+              <div style="font-size:11px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;display:flex;align-items:center;gap:5px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Extend check-in window
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px" id="extend-pill-group">
+                <button class="extend-pill" data-mins="15" onclick="pickExtendPill(this)">15 min</button>
+                <button class="extend-pill active" data-mins="30" onclick="pickExtendPill(this)">30 min</button>
+                <button class="extend-pill" data-mins="45" onclick="pickExtendPill(this)">45 min</button>
+                <button class="extend-pill" data-mins="60" onclick="pickExtendPill(this)">1 hour</button>
+                <button class="extend-pill" data-mins="90" onclick="pickExtendPill(this)">1.5 hrs</button>
+                <button class="extend-pill" data-mins="120" onclick="pickExtendPill(this)">2 hours</button>
+              </div>
+              <button class="btn-secondary" style="width:100%;background:var(--purple);color:white;border-color:var(--purple);font-size:13px" onclick="doCheckin('extend')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 Extend by <span id="extend-label">30 min</span>
               </button>
-              <select id="extend-mins" onchange="updateExtendLabel()" style="padding:10px 8px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-700);background:var(--white);cursor:pointer;min-width:88px">
-                <option value="15">15 min</option>
-                <option value="30" selected>30 min</option>
-                <option value="45">45 min</option>
-                <option value="60">1 hour</option>
-                <option value="90">1.5 hrs</option>
-                <option value="120">2 hours</option>
-              </select>
+              <input type="hidden" id="extend-mins" value="30">
             </div>
             <button class="btn-danger" onclick="doCheckin('alert')">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17.5" r="0.5" fill="currentColor"/></svg>
@@ -733,6 +741,14 @@ function resetCheckin(){
   circle.textContent='🗺️';circle.className='checkin-circle';
   document.getElementById('checkin-title').textContent='Plan a new destination';
   document.getElementById('checkin-sub').textContent='Enter your destination below to start tracking your arrival';
+}
+
+function pickExtendPill(btn){
+  document.querySelectorAll('.extend-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('extend-mins').value=btn.dataset.mins;
+  const labels={15:'15 min',30:'30 min',45:'45 min',60:'1 hour',90:'1.5 hrs',120:'2 hours'};
+  document.getElementById('extend-label').textContent=labels[btn.dataset.mins]||btn.dataset.mins+' min';
 }
 
 function updateExtendLabel(){
