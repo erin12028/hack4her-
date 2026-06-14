@@ -116,7 +116,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--gra
 .btn-primary{width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-primary:hover{background:var(--navy-mid);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .btn-primary svg{width:16px;height:16px}
-.btn-secondary{width:100%;padding:11px;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-secondary{padding:11px 16px;background:var(--purple-soft);color:var(--purple);border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
 .btn-secondary:hover{background:var(--gray-50)}
 .btn-danger{width:100%;padding:11px;background:var(--red-soft);color:var(--red);border:1px solid #f5c6c2;border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-danger:hover{background:#fbd7d4}
@@ -158,6 +158,19 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 .safe-confirmed-icon{font-size:48px;margin-bottom:8px}
 .safe-confirmed-title{font-size:15px;font-weight:600;color:var(--teal);margin-bottom:4px}
 .safe-confirmed-sub{font-size:12px;color:var(--gray-500)}
+
+/* How scores work explainer */
+.explainer-card{background:var(--blue-soft);border:1px solid var(--blue-mid);border-radius:var(--radius-lg);padding:18px 20px;margin:0 20px 4px}
+.explainer-title{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.explainer-title svg{width:13px;height:13px}
+.explainer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.explainer-item{display:flex;align-items:flex-start;gap:8px}
+.explainer-dot{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:9px;font-weight:700}
+.explainer-item-text{font-size:11px;color:var(--gray-700);line-height:1.45}
+.explainer-item-text strong{display:block;font-weight:600;color:var(--gray-900);font-size:11px}
+.score-legend{display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--blue-mid)}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -188,6 +201,37 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
 
   <!-- BEFORE BOOKING -->
   <section id="sec-before" class="section active">
+    <!-- HOW SCORES WORK explainer -->
+    <div class="explainer-card" style="margin-top:20px">
+      <div class="explainer-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        How safety scores work
+      </div>
+      <div class="explainer-grid">
+        <div class="explainer-item">
+          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">1</div>
+          <div class="explainer-item-text"><strong>Traveller reviews</strong>Thousands of verified guest ratings from that property</div>
+        </div>
+        <div class="explainer-item">
+          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">2</div>
+          <div class="explainer-item-text"><strong>Area crime data</strong>Neighbourhood safety index from local authorities</div>
+        </div>
+        <div class="explainer-item">
+          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">3</div>
+          <div class="explainer-item-text"><strong>Night safety</strong>Lighting, CCTV coverage &amp; late-night foot traffic</div>
+        </div>
+        <div class="explainer-item">
+          <div class="explainer-dot" style="background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid)">4</div>
+          <div class="explainer-item-text"><strong>Solo &amp; female rating</strong>Specific feedback from solo and female travellers</div>
+        </div>
+      </div>
+      <div class="score-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div><span style="color:var(--teal)">70–100 Very safe</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div><span style="color:var(--amber)">50–69 Moderate</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div><span style="color:var(--red)">0–49 Use caution</span></div>
+      </div>
+    </div>
+
     <div id="hotel-picker" class="picker-box">
       <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:4px">Where are you staying?</div>
       <div style="font-size:13px;color:var(--gray-500);margin-bottom:16px">Select your city and hotel to see its safety score</div>
@@ -384,18 +428,19 @@ select:focus,input[type=text]:focus{border-color:var(--navy)}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               I'm safe: arrived at hotel
             </button>
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn-secondary" style="flex:1;font-size:12px" onclick="doCheckin('extend')">
+            <!-- FIX: extend button takes remaining space, time picker is compact fixed width -->
+            <div style="display:flex;gap:8px;align-items:stretch">
+              <button class="btn-secondary" style="flex:1" onclick="doCheckin('extend')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 Extend by <span id="extend-label">30 min</span>
               </button>
-              <select id="extend-mins" onchange="updateExtendLabel()" style="padding:10px 8px;border:1px solid var(--gray-200);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--gray-700);background:var(--white);cursor:pointer;min-width:88px">
+              <select id="extend-mins" onchange="updateExtendLabel()" style="width:80px;flex-shrink:0;padding:10px 8px;border:1px solid var(--purple);border-radius:var(--radius-md);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--purple);background:var(--purple-soft);cursor:pointer;text-align:center;font-weight:600">
                 <option value="15">15 min</option>
                 <option value="30" selected>30 min</option>
                 <option value="45">45 min</option>
-                <option value="60">1 hour</option>
-                <option value="90">1.5 hrs</option>
-                <option value="120">2 hours</option>
+                <option value="60">1 hr</option>
+                <option value="90">1.5 hr</option>
+                <option value="120">2 hr</option>
               </select>
             </div>
             <button class="btn-danger" onclick="doCheckin('alert')">
@@ -522,7 +567,6 @@ function getScoreColor(score){
 }
 
 function getMockCriteria(score,area,avg){
-  const seed=score;
   const clamp=(v,mn,mx)=>Math.min(mx,Math.max(mn,Math.round(v)));
   const jitter=(base,spread)=>clamp(base+(Math.random()-0.5)*spread*2,10,100);
   const nightlifeArea=area==='nightlife_district';
@@ -635,14 +679,17 @@ function confirmDestination(){
 function doCheckin(type){
   const circle=document.getElementById('checkin-circle');
   if(type==='safe'){
-    // immediately hide actions, show confirmed state
     document.getElementById('checkin-card').style.display='none';
     document.getElementById('safe-confirmed').style.display='block';
     circle.textContent='✅';circle.className='checkin-circle safe';
     document.getElementById('checkin-title').textContent='Safely arrived!';
     document.getElementById('checkin-sub').textContent='Mama and Sara have been notified.\nEnjoy your stay!';
+<<<<<<< HEAD
     showToast('✓ Contacts notified: safe arrival confirmed');
     // after 3s reset and switch tab
+=======
+    showToast('✓ Contacts notified — safe arrival confirmed');
+>>>>>>> d8a84d0 (add a box for explaination)
     setTimeout(()=>{
       resetCheckin();
       showTab('arrival',document.getElementById('arrival-tab-btn'));
