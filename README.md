@@ -1,4 +1,4 @@
->     1st Place Hackathon Winner – Booking.com Challenge (Hack4Her 2026, Eindhoven)
+> 1st Place Hackathon Winner – Booking.com Challenge (Hack4Her 2026, Eindhoven)
 
 > This website was created as part of **hack4her 2026** in Eindhoven where the main objective was to come up with a solution designed to empower female solo travellers and enhance their security while exploring the world. 
 > Engineered as a direct feature concept for **Booking.com**, this prototype demonstrates how safety insights, community trust, and seamless UI integration can transform the solo travel experience. 
